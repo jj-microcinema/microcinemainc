@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microcinema Inc.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Spectral:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cinema-red: #C8311A;
+    --unearthed-amber: #B8813A;
+    --unearthed-parchment: #48CAE4;
+    --ink: #0C0C0A;
+    --newsprint: #EAE5D8;
+    --white: #F5F1E8;
+    --rule: rgba(12,12,10,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--newsprint);
+    color: var(--ink);
+    font-family: 'Spectral', Georgia, serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: multiply;
+  }
+
+  .masthead {
+    background: var(--cinema-red);
+    padding: 44px 56px 38px;
+  }
+
+  .masthead-wordmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 15vw, 172px);
+    color: var(--white);
+    letter-spacing: 0.015em;
+    line-height: 0.88;
+    display: block;
+  }
+
+  .masthead-rule {
+    height: 2px;
+    background: var(--white);
+    margin: 18px 0 15px;
+  }
+
+  .masthead-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .masthead-tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .masthead-meta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(245,241,232,0.55);
+  }
+
+  .creed {
+    background: var(--ink);
+    padding: 56px 56px 52px;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  .creed .section-label { color: var(--cinema-red); }
+
+  .creed-lines {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(26px, 3.8vw, 46px);
+    color: var(--white);
+    line-height: 1.18;
+    letter-spacing: 0.03em;
+  }
+
+  .creed-lines .dim { color: rgba(245,241,232,0.25); }
+  .creed-lines .accent { color: var(--cinema-red); }
+
+  .project {
+    background: var(--unearthed-parchment);
+    padding: 56px 56px 52px;
+    border-top: 3px solid var(--ink);
+  }
+
+  .project .section-label { color: rgba(12,12,10,0.5); }
+
+  .project-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 12vw, 148px);
+    color: var(--ink);
+    line-height: 0.88;
+    letter-spacing: 0.02em;
+    display: block;
+  }
+
+  .project-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.55;
+    margin-top: 10px;
+  }
+
+  .project-rule {
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.2;
+    margin: 22px 0;
+  }
+
+  .project-logline {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink);
+    max-width: 620px;
+    line-height: 1.7;
+    opacity: 0.88;
+  }
+
+  .project-cta {
+    display: inline-block;
+    margin-top: 26px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 3px;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+
+  .project-cta:hover { opacity: 1; }
+
+  .about {
+    background: var(--newsprint);
+    padding: 56px 56px 52px;
+    border-top: 3px solid var(--ink);
+    display: grid;
+    grid-template-columns: minmax(180px, 280px) 1fr;
+    gap: 60px;
+  }
+
+  .about .section-label { color: rgba(12,12,10,0.4); }
+
+  .about-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5.5vw, 68px);
+    color: var(--ink);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+  }
+
+  .about-role {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.4;
+    margin-top: 12px;
+  }
+
+  .credits {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .credit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.38;
+    border-top: 1px solid currentColor;
+    padding-top: 8px;
+  }
+
+  .about-text { padding-top: 2px; }
+
+  .about-text p {
+    font-size: 15.5px;
+    line-height: 1.78;
+    color: var(--ink);
+    opacity: 0.82;
+  }
+
+  .about-text p + p { margin-top: 18px; }
+
+  .about-text .pull {
+    font-style: italic;
+    font-size: 17px;
+    opacity: 1;
+    color: var(--ink);
+    margin-top: 24px;
+    padding-left: 20px;
+    border-left: 2px solid var(--cinema-red);
+  }
+
+  .footer {
+    background: var(--ink);
+    padding: 30px 56px;
+    border-top: 3px solid var(--cinema-red);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .footer-wordmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--white);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-spine {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: rgba(245,241,232,0.25);
+    letter-spacing: 0.02em;
+  }
+
+  .footer-contact {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(245,241,232,0.45);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-contact:hover { color: var(--cinema-red); }
+
+  @media (max-width: 680px) {
+    .masthead, .creed, .project, .about, .footer {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .about { grid-template-columns: 1fr; gap: 32px; }
+    .masthead-bar { flex-direction: column; }
+    .footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <span class="masthead-wordmark">Micro<br>cinema<br>Inc.</span>
+  <div class="masthead-rule"></div>
+  <div class="masthead-bar">
+    <span class="masthead-tagline">Make cinema. Not content.</span>
+    <span class="masthead-meta">A division of Pluma Productions &nbsp;·&nbsp; NY | LA</span>
+  </div>
+</header>
+
+<section class="creed">
+  <div class="section-label">Creed</div>
+  <div class="creed-lines">
+    Make cinema. Not content.<br>
+    Wit cuts clean.<br>
+    <span class="dim">If Parker wouldn't keep it,</span> <span class="accent">neither do we.</span>
+  </div>
+</section>
+
+<section class="project">
+  <div class="section-label">Current Production</div>
+  <span class="project-title">Unearthed</span>
+  <div class="project-subtitle">Sustainable Beauty Rituals &nbsp;·&nbsp; 9 &times; 30 min &nbsp;·&nbsp; Streaming | YouTube</div>
+  <div class="project-rule"></div>
+  <p class="project-logline">Part bumbling travelogue, part love letter to our perpetual pursuit of beauty, an open-eyed host, equal parts Lucille Ball and Indiana Jones, seeks ancestral rituals where touch, humor, and climate truth share the same mirror.</p>
+  <a href="mailto:sales@microcinemainc.com" class="project-cta">One-sheet available on request</a>
+</section>
+
+<section class="about">
+  <div>
+    <div class="section-label">Director</div>
+    <div class="about-name">Johnna<br>McDonald</div>
+    <div class="about-role">Creator &amp; Director</div>
+    <div class="credits">
+      <span class="credit">Apple</span>
+      <span class="credit">Amazon</span>
+      <span class="credit">Lucasfilm</span>
+      <span class="credit">NFL</span>
+      <span class="credit">Lexus</span>
+    </div>
+  </div>
+  <div class="about-text">
+    <div class="section-label">About</div>
+    <p>The creed is the brief. It always has been. Apple, Amazon, Lucasfilm, the NFL. Every frame a decision. Every cut a commitment.</p>
+    <p>Strategic, multi-disciplined producer and director working with some of the world's most demanding brands. Inspired by the simple utility of the Arts and Crafts movement, the surreal logic of 1970s cinema, and the belief that everyday chaos, precisely cut, becomes something worth watching.</p>
+    <p>And gummy bears.</p>
+    <p class="pull">My camera listens harder than I do.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <span class="footer-wordmark">Microcinema Inc.</span>
+  <span class="footer-spine">Cinema &gt; Content &nbsp;·&nbsp; Expression &gt; Product</span>
+  <a href="mailto:johnna@microcinemainc.com" class="footer-contact">johnna@microcinemainc.com</a>
+</footer>
+
+</body>
+</html>
